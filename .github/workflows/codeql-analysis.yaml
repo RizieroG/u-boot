@@ -17,11 +17,8 @@ jobs:
       uses: github/codeql-action/init@v3
       with:
         languages: cpp
-        config: |
-          disable-default-queries: true    # 1) disabilita tutte le query "core"
-          queries:
-            - name: Taint-tracking          # 2) definisci la tua query custom
-              uses: ./queries-static-analysis/cpp/taint-tracking.ql
+        disable-default-queries: true       # disabilita le suite standard
+        queries: ./queries-static-analysis/cpp/taint-tracking.ql
 
     - name: Set up dependencies
       run: |
