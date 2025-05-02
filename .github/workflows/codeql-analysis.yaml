@@ -1,36 +1,29 @@
-name: "CodeQL Custom Analysis"
+name: CodeQL with Prebuilt DB
 
 on:
-  schedule:
-    - cron: '0 6 * * *'  # Ogni giorno alle 6:00 UTC
   workflow_dispatch:
 
 jobs:
   analyze:
-    name: Analyze code with CodeQL
+    name: Run CodeQL analysis on prebuilt database
     runs-on: ubuntu-latest
-    permissions:
-      security-events: write
-      actions: read
-      contents: read
-
-    strategy:
-      fail-fast: false
-      matrix:
-        language: [ 'cpp' ]
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+    - name: Checkout query repo
+      uses: actions/checkout@v4
 
-      - name: Initialize CodeQL
-        uses: github/codeql-action/init@v3
-        with:
-          languages: ${{ matrix.language }}
-          queries: ./queries-static-analysis
+    - name: Download CodeQL database
+      run: |
+        curl -L -o u-boot-codeql.zip https://github.com/github/securitylab/releases/download/u-boot-codeql-database/u-boot_u-boot_cpp-srcVersion_d0d07ba86afc8074d79e436b1ba4478fa0f0c1b5-dist_odasa-2019-07-25-linux64.zip
+        unzip u-boot-codeql.zip -d uboot-db
 
-      - name: Autobuild
-        uses: github/codeql-action/autobuild@v3
+    - name: Setup CodeQL CLI
+      uses: github/codeql-action/init@v3
+      with:
+        languages: cpp
 
-      - name: Perform CodeQL Analysis
-        uses: github/codeql-action/analyze@v3
+    - name: Run CodeQL analysis
+      uses: github/codeql-action/analyze@v3
+      with:
+        database: ./uboot-db
+        queries: ./queries-static-analysis
