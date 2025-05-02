@@ -1,3 +1,10 @@
+/**
+ * @name Network byte swap flows to memcpy
+ * @id   network-byte-swap
+ * @kind problem
+ * @tags custom, taint
+ */
+
 import cpp
 import semmle.code.cpp.dataflow.TaintTracking
 
