@@ -27,6 +27,11 @@ jobs:
     - name: Configure U-Boot
       run: make sandbox_defconfig
 
+    - name: Patch .config to avoid internal DTC build
+      run: |
+        echo "CONFIG_DTC_EXTERNAL=y" >> .config
+        yes "" | make olddefconfig
+
     - name: Build U-Boot
       run: make -j$(nproc) DTC=dtc
 
