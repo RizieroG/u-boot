@@ -17,7 +17,10 @@ jobs:
       uses: github/codeql-action/init@v3
       with:
         languages: cpp
-        config-file: ./.github/codeql-config.yml
+        config: |
+          disable-default-queries: true
+          queries:
+            - ./queries-static-analysis/cpp/taint-tracking.ql
 
     - name: Set up dependencies
       run: |
