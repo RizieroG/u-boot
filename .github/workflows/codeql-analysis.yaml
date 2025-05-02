@@ -1,35 +1,33 @@
-name: CodeQL DB Analyze
+name: CodeQL U-Boot Analysis
 
 on:
-  workflow_dispatch:
+  schedule:
+    - cron: '0 0 * * 0'
 
 jobs:
   analyze:
+    name: Analyze U-Boot
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout query repo
+    - name: Checkout source
       uses: actions/checkout@v4
 
-    - name: Download CodeQL database
-      run: |
-        curl -L -o u-boot-codeql.zip https://github.com/github/securitylab/releases/download/u-boot-codeql-database/u-boot_u-boot_cpp-srcVersion_d0d07ba86afc8074d79e436b1ba4478fa0f0c1b5-dist_odasa-2019-07-25-linux64.zip
-        unzip u-boot-codeql.zip -d uboot-db
-
-    - name: Download CodeQL CLI
-      run: |
-        curl -L -o codeql.zip https://github.com/github/codeql-cli-binaries/releases/download/v2.15.5/codeql-linux64.zip
-        unzip codeql.zip -d codeql
-
-    - name: Run custom CodeQL query
-      run: |
-        ./codeql/codeql/codeql database analyze \
-          uboot-db \
-          ./queries-static-analysis \
-          --format=sarifv2.1.0 \
-          --output=results.sarif
-
-    - name: Upload results to GitHub Security tab
-      uses: github/codeql-action/upload-sarif@v3
+    - name: Initialize CodeQL
+      uses: github/codeql-action/init@v3
       with:
-        sarif_file: results.sarif
+        languages: cpp
+
+    - name: Set up dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y bison flex gcc make bc python3
+
+    - name: Configure U-Boot
+      run: make sandbox_defconfig
+
+    - name: Build U-Boot
+      run: make -j$(nproc)
+
+    - name: Perform CodeQL Analysis
+      uses: github/codeql-action/analyze@v3
