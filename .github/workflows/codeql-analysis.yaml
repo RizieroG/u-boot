@@ -45,10 +45,5 @@ jobs:
         category: custom      # <- solo query custom
         output: results.sarif
 
-    - name: Dump SARIF to console
-      run: |
-        echo "=== SARIF results (cpp) ==="
-        jq . results.sarif/cpp.sarif
-
 
 
