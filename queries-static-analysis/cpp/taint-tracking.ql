@@ -5,8 +5,8 @@
  * @tags custom, taint
  */
 
-import cpp;
-import semmle.code.cpp.dataflow.TaintTracking;
+import cpp
+import semmle.code.cpp.dataflow.TaintTracking
 
 class NetworkByteSwap extends Expr {
   NetworkByteSwap() {
@@ -31,7 +31,8 @@ module MyConfig implements DataFlow::ConfigSig {
 }
 
 module MyTaint = TaintTracking::Global<MyConfig>;
-import MyTaint::PathGraph;
+
+import MyTaint::PathGraph
 
 from MyTaint::PathNode source, MyTaint::PathNode sink
 where MyTaint::flowPath(source, sink)
