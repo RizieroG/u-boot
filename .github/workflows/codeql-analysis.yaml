@@ -46,6 +46,9 @@ jobs:
         output: results.sarif
 
     - name: Dump SARIF to console
-      run: jq . results.sarif
+      run: |
+        echo "=== SARIF results (cpp) ==="
+        jq . results.sarif/cpp.sarif
+
 
 
