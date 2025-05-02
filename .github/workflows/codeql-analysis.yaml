@@ -25,14 +25,17 @@ jobs:
         sudo apt-get install -y bison flex gcc make bc python3 libsdl1.2-dev device-tree-compiler
 
     - name: Configure U-Boot
-      run: make sandbox_defconfig all
+      run: | 
+        make sandbox_defconfig 
+        echo "CONFIG_DTC_EXTERNAL=y" >> .config
+        yes "" | make olddefconfig
 
     - name: Patch dtc-lexer to fix multiple definition of yylloc
       run: |
         sed -i '/^YYLTYPE yylloc;/d' scripts/dtc/dtc-lexer.l
 
     - name: Build U-Boot
-      run: make -j$(nproc)
+      run: make -j$(nproc) all
 
     - name: Run custom CodeQL query
       uses: github/codeql-action/analyze@v3
