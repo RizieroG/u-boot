@@ -1,4 +1,4 @@
 disable-default-queries: true
 
 packs:
-  - uses: ./queries-static-analysis/cpp
+  - ./queries-static-analysis/cpp
