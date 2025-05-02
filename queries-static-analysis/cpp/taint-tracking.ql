@@ -5,8 +5,8 @@
  * @tags custom, taint
  */
 
-import cpp
-import semmle.code.cpp.dataflow.TaintTracking
+import cpp;
+import semmle.code.cpp.dataflow.TaintTracking;
 
 class NetworkByteSwap extends Expr {
   NetworkByteSwap() {
@@ -35,4 +35,4 @@ import MyTaint::PathGraph;
 
 from MyTaint::PathNode source, MyTaint::PathNode sink
 where MyTaint::flowPath(source, sink)
-select sink, source, sink, "network byte swap flows to memcpy"
+select sink, source, sink, "network byte swap flows to memcpy";
