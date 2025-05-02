@@ -34,15 +34,7 @@ jobs:
         
     - name: Patch dtc-lexer to fix multiple definition of yylloc
       run: |
-        # Applichiamo la patch direttamente al file generato
-        if [ -f scripts/dtc/dtc-lexer.lex.c ]; then
-          sed -i 's/^YYLTYPE yylloc;/extern YYLTYPE yylloc;/' scripts/dtc/dtc-lexer.lex.c
-        elif [ -f scripts/dtc/dtc-lexer.lex.c_shipped ]; then
-          sed -i 's/^YYLTYPE yylloc;/extern YYLTYPE yylloc;/' scripts/dtc/dtc-lexer.lex.c_shipped
-        else
-          echo "File dtc-lexer non trovato!"
-          exit 1
-        fi
+        sed -i '/^YYLTYPE yylloc;/d' scripts/dtc/dtc-lexer.l
 
     - name: Build U-Boot
       run: make -j$(nproc) DTC=dtc
