@@ -1,8 +1,7 @@
 /**
  * @name Network byte swap flows to memcpy
  * @id   network-byte-swap
- * @kind problem
- * @pattern "network byte swap flows to memcpy"
+ * @kind path-problem
  * @tags custom, taint
  */
 
