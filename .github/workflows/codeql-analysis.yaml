@@ -25,7 +25,7 @@ jobs:
         sudo apt-get install -y bison flex gcc make bc python3 libsdl1.2-dev device-tree-compiler
 
     - name: Configure U-Boot
-      run: make allyesconfig
+      run: make allmodconfig
 
     - name: Patch dtc-lexer to fix multiple definition of yylloc
       run: |
