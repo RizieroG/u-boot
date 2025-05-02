@@ -23,7 +23,7 @@ jobs:
 
     - name: Run custom CodeQL query
       run: |
-        ./codeql/codeql database analyze \
+        ./codeql/codeql/codeql database analyze \
           uboot-db \
           ./queries-static-analysis \
           --format=sarifv2.1.0 \
