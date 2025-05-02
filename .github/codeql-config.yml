@@ -1,4 +1,4 @@
 disable-default-queries: true
 
-queries:
-  - uses: ./queries-static-analysis/cpp/taint-tracking.ql
+packs:
+  - uses: ./queries-static-analysis/cpp
