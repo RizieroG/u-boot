@@ -1,4 +1,7 @@
+name: "My CodeQL config"
+
 disable-default-queries: true
 
-packs:
-  - ./queries-static-analysis/cpp
+queries:
+  - name: Use an in-repository CodeQL pack (run queries in the my-queries directory)
+    uses: ./queries-static-analysis/cpp
