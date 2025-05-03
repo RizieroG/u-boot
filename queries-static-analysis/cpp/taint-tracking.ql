@@ -28,6 +28,12 @@ module MyConfig implements DataFlow::ConfigSig {
       sink.asExpr() = memcpy.getArgument(2)  // Terzo argomento di memcpy
     )
   }
+
+  predicate isBarrier(DataFlow::Node barrier) {
+    exists(IfStmt ifs |
+      barrier.asExpr().getBasicBlock() = ifs
+    )
+  }
 }
 
 module MyTaint = TaintTracking::Global<MyConfig>;
